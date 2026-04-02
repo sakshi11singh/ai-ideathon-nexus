@@ -1,7 +1,10 @@
 import { Mail, Phone, Instagram, Linkedin, Twitter } from "lucide-react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
-const ContactSection = () => (
-  <section id="contact" className="section-padding bg-muted/30">
+const ContactSection = () => {
+  const ref = useScrollReveal();
+  return (
+  <section id="contact" className="section-padding bg-muted/30 scroll-reveal" ref={ref}>
     <div className="container mx-auto text-center">
       <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
         Get In <span className="gradient-text">Touch</span>
