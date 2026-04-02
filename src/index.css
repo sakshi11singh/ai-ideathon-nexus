@@ -102,6 +102,17 @@
 }
 
 @layer utilities {
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+
+  .scroll-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }

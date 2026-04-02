@@ -1,4 +1,5 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const faqs = [
   { q: "Who can participate?", a: "Any student aged 15–24 from anywhere in India can participate. No specific academic background is required." },
@@ -8,8 +9,10 @@ const faqs = [
   { q: "Can I participate solo?", a: "Yes, you can participate individually or in a team of up to 3 members." },
 ];
 
-const FAQSection = () => (
-  <section id="faq" className="section-padding">
+const FAQSection = () => {
+  const ref = useScrollReveal();
+  return (
+  <section id="faq" className="section-padding scroll-reveal" ref={ref}>
     <div className="container mx-auto max-w-3xl">
       <div className="text-center mb-16">
         <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
@@ -31,6 +34,7 @@ const FAQSection = () => (
       </Accordion>
     </div>
   </section>
-);
+  );
+};
 
 export default FAQSection;

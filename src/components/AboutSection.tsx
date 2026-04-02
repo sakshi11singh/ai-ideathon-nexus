@@ -1,4 +1,5 @@
 import { Lightbulb, Users, Globe } from "lucide-react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const highlights = [
   { icon: Lightbulb, title: "Innovation", desc: "Push the boundaries of AI to solve real-world challenges across diverse domains." },
@@ -6,8 +7,10 @@ const highlights = [
   { icon: Globe, title: "Real-World Impact", desc: "Create AI solutions addressing humanity's most pressing challenges." },
 ];
 
-const AboutSection = () => (
-  <section id="about" className="section-padding">
+const AboutSection = () => {
+  const ref = useScrollReveal();
+  return (
+  <section id="about" className="section-padding scroll-reveal" ref={ref}>
     <div className="container mx-auto">
       <div className="text-center mb-16">
         <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
@@ -31,6 +34,7 @@ const AboutSection = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default AboutSection;

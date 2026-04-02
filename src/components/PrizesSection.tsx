@@ -1,4 +1,5 @@
 import { Trophy, Medal, Award, Gift } from "lucide-react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const prizes = [
   { icon: Trophy, place: "1st Place", reward: "₹25,000 Cash Prize", extras: "Certificate + Internship Opportunity", glow: "glow-blue" },
@@ -7,8 +8,10 @@ const prizes = [
   { icon: Gift, place: "Special Mentions", reward: "Exclusive Goodies", extras: "Certificates for All Finalists", glow: "" },
 ];
 
-const PrizesSection = () => (
-  <section id="prizes" className="section-padding bg-muted/30">
+const PrizesSection = () => {
+  const ref = useScrollReveal();
+  return (
+  <section id="prizes" className="section-padding bg-muted/30 scroll-reveal" ref={ref}>
     <div className="container mx-auto">
       <div className="text-center mb-16">
         <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
@@ -31,6 +34,7 @@ const PrizesSection = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default PrizesSection;

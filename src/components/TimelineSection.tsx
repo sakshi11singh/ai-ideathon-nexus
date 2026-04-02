@@ -1,4 +1,5 @@
 import { CalendarDays, FileText, Video, Trophy } from "lucide-react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const steps = [
   { icon: CalendarDays, title: "Registration", date: "02 Apr – 30 Apr 2026", desc: "Sign up on Unstop and form your team." },
@@ -7,8 +8,10 @@ const steps = [
   { icon: Trophy, title: "Round 3: Final Round", date: "June 2026", desc: "Build and demo your prototype in the grand finale." },
 ];
 
-const TimelineSection = () => (
-  <section id="timeline" className="section-padding">
+const TimelineSection = () => {
+  const ref = useScrollReveal();
+  return (
+  <section id="timeline" className="section-padding scroll-reveal" ref={ref}>
     <div className="container mx-auto">
       <div className="text-center mb-16">
         <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
@@ -38,6 +41,7 @@ const TimelineSection = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default TimelineSection;
