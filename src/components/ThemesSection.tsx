@@ -1,4 +1,5 @@
 import { HeartPulse, Leaf, BrainCircuit, Building2, Sparkles } from "lucide-react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const themes = [
   { icon: HeartPulse, title: "AI for Healthcare", desc: "Revolutionize diagnostics, treatment, and patient care with intelligent systems.", color: "from-rose-500/20 to-rose-500/5" },
@@ -8,8 +9,10 @@ const themes = [
   { icon: Sparkles, title: "Open Innovation", desc: "Bring your own groundbreaking AI idea to life — no limits!", color: "from-violet-500/20 to-violet-500/5" },
 ];
 
-const ThemesSection = () => (
-  <section id="themes" className="section-padding bg-muted/30">
+const ThemesSection = () => {
+  const ref = useScrollReveal();
+  return (
+  <section id="themes" className="section-padding bg-muted/30 scroll-reveal" ref={ref}>
     <div className="container mx-auto">
       <div className="text-center mb-16">
         <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
