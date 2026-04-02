@@ -1,4 +1,5 @@
 import { FileText, Presentation, Code } from "lucide-react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const rounds = [
   {
@@ -21,8 +22,10 @@ const rounds = [
   },
 ];
 
-const RoundsSection = () => (
-  <section id="rounds" className="section-padding bg-muted/30">
+const RoundsSection = () => {
+  const ref = useScrollReveal();
+  return (
+  <section id="rounds" className="section-padding bg-muted/30 scroll-reveal" ref={ref}>
     <div className="container mx-auto">
       <div className="text-center mb-16">
         <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
