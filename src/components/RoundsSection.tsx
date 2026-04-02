@@ -50,6 +50,7 @@ const RoundsSection = () => {
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default RoundsSection;

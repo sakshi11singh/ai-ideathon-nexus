@@ -32,6 +32,7 @@ const RulesSection = () => {
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default RulesSection;

@@ -37,6 +37,7 @@ const ContactSection = () => {
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default ContactSection;

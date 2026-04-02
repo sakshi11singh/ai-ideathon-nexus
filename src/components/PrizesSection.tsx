@@ -34,6 +34,7 @@ const PrizesSection = () => {
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default PrizesSection;

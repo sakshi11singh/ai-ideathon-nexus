@@ -36,6 +36,7 @@ const ThemesSection = () => {
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default ThemesSection;
