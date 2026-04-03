@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "axios";
-import { CheckCircle2, Loader2, AlertCircle } from "lucide-react";
+import { CheckCircle2, Loader2, AlertCircle, Shield } from "lucide-react";
+import { 
+  sanitizeEmail, 
+  sanitizePhone, 
+  sanitizeText, 
+  validateHoneypot,
+  rateLimiter,
+  createFormTimer,
+  storeCSRFToken
+} from "@/lib/security";
 
 // Form validation schema with Zod
 const registrationSchema = z.object({
@@ -33,6 +42,8 @@ const registrationSchema = z.object({
     "Other"
   ]),
   requirements: z.string().optional(),
+  // Honeypot field (hidden from users)
+  website: z.literal("", { errorMap: () => ({ message: "Bot detected" }) }).optional(),
 });
 
 type RegistrationFormData = z.infer<typeof registrationSchema>;
@@ -47,6 +58,15 @@ const RegistrationForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionResult, setSubmissionResult] = useState<SubmissionResult | null>(null);
   const [showTeamMembers, setShowTeamMembers] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<number>(0);
+
+  // Initialize form timer and CSRF token
+  const [formTimer] = useState(() => createFormTimer());
+  
+  useEffect(() => {
+    formTimer.startTime();
+    storeCSRFToken();
+  }, [formTimer]);
 
   const {
     register,
@@ -54,8 +74,11 @@ const RegistrationForm = () => {
     formState: { errors },
     reset,
     watch,
+    getValues,
   } = useForm<RegistrationFormData>({
     resolver: zodResolver(registrationSchema),
+    mode: 'onChange', // Real-time validation
+    reValidateMode: 'onChange',
   });
 
   const teamSize = watch("teamSize");
@@ -74,21 +97,53 @@ const RegistrationForm = () => {
     setSubmissionResult(null);
 
     try {
+      // Security Check 1: Honeypot validation
+      if (!validateHoneypot(data.website || '')) {
+        throw new Error('Bot activity detected. Submission rejected.');
+      }
+
+      // Security Check 2: Form timing (must spend at least 3 seconds)
+      const timeSpent = formTimer.getTimeSpent();
+      if (timeSpent < 3000) {
+        throw new Error('Submission too fast. Please fill the form manually.');
+      }
+
+      // Security Check 3: Rate limiting
+      const clientIdentifier = data.email.toLowerCase().trim();
+      if (!rateLimiter.isAllowed(clientIdentifier)) {
+        const remainingTime = Math.ceil(rateLimiter.getRemainingTime(clientIdentifier) / 1000);
+        throw new Error(`Too many attempts. Please wait ${remainingTime} seconds.`);
+      }
+
+      // Security Check 4: Input sanitization
+      const sanitizedData = {
+        ...data,
+        fullName: sanitizeText(data.fullName),
+        email: sanitizeEmail(data.email),
+        phone: sanitizePhone(data.phone),
+        college: sanitizeText(data.college),
+        course: sanitizeText(data.course),
+        teamMembers: data.teamMembers ? sanitizeText(data.teamMembers) : undefined,
+        requirements: data.requirements ? sanitizeText(data.requirements) : undefined,
+      };
+
       // Generate unique registration ID
       const registrationId = `AII2026-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       
-      // Prepare data for Google Sheets
+      // Prepare data for submission
       const sheetData = {
-        ...data,
+        ...sanitizedData,
         timestamp: new Date().toISOString(),
         registrationId,
+        csrfToken: getCSRFToken(),
+        timeSpentOnForm: timeSpent,
       };
 
-      // Send to Google Sheets API
-      await submitToGoogleSheets(sheetData);
+      // Send to backend proxy (more secure than direct API call)
+      await submitToBackendProxy(sheetData);
 
       // Send confirmation email (if EmailJS configured)
-      await sendConfirmationEmail(data);
+      await sendConfirmationEmail(sanitizedData);
 
       setSubmissionResult({
         success: true,
@@ -97,6 +152,7 @@ const RegistrationForm = () => {
       });
 
       reset();
+      formTimer.startTime(); // Reset timer
     } catch (error) {
       console.error("Registration error:", error);
       setSubmissionResult({
@@ -108,42 +164,19 @@ const RegistrationForm = () => {
     }
   };
 
-  const submitToGoogleSheets = async (data: any) => {
-    const sheetId = import.meta.env.VITE_GOOGLE_SHEET_ID;
-    const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
-
-    if (!sheetId || !apiKey) {
-      throw new Error("Google Sheets configuration missing. Please check .env file.");
-    }
-
-    // Google Sheets API v4 endpoint
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS&key=${apiKey}`;
-
-    // Format data as row array
-    const rowData = [
-      data.timestamp,
-      data.fullName,
-      data.email,
-      data.phone,
-      data.age,
-      data.college,
-      data.course,
-      data.yearOfStudy,
-      data.teamSize,
-      data.teamMembers || "N/A",
-      data.themePreference,
-      data.aiExperience,
-      data.howDidYouHear,
-      data.requirements || "N/A",
-      data.registrationId,
-    ];
-
-    const response = await axios.post(url, {
-      values: [rowData],
+  const submitToBackendProxy = async (data: any) => {
+    // Use backend proxy for better security
+    const response = await axios.post('/api/submit-registration', {
+      data,
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': data.csrfToken || '',
+      },
     });
 
     if (response.status !== 200) {
-      throw new Error("Failed to submit to Google Sheets");
+      throw new Error("Failed to submit registration");
     }
 
     return response.data;
@@ -215,6 +248,16 @@ const RegistrationForm = () => {
 
       {/* Registration Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+        {/* Honeypot Field - Hidden from users, catches bots */}
+        <input
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          {...register("website")}
+          style={{ display: 'none' }}
+          aria-hidden="true"
+        />
+        
         {/* Personal Information */}
         <div className="glass-card p-8">
           <h3 className="font-display text-2xl font-bold mb-6 text-foreground">
