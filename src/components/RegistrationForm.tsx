@@ -11,7 +11,8 @@ import {
   validateHoneypot,
   rateLimiter,
   createFormTimer,
-  storeCSRFToken
+  storeCSRFToken,
+  getCSRFToken
 } from "@/lib/security";
 
 // Form validation schema with Zod
@@ -130,7 +131,7 @@ const RegistrationForm = () => {
       // Generate unique registration ID
       const registrationId = `AII2026-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       
-      // Prepare data for submission
+      // Prepare data for Google Sheets
       const sheetData = {
         ...sanitizedData,
         timestamp: new Date().toISOString(),
@@ -139,8 +140,8 @@ const RegistrationForm = () => {
         timeSpentOnForm: timeSpent,
       };
 
-      // Send to backend proxy (more secure than direct API call)
-      await submitToBackendProxy(sheetData);
+      // Send to Google Sheets API directly
+      await submitToGoogleSheets(sheetData);
 
       // Send confirmation email (if EmailJS configured)
       await sendConfirmationEmail(sanitizedData);
@@ -164,19 +165,43 @@ const RegistrationForm = () => {
     }
   };
 
-  const submitToBackendProxy = async (data: any) => {
-    // Use backend proxy for better security
-    const response = await axios.post('/api/submit-registration', {
-      data,
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': data.csrfToken || '',
-      },
+  const submitToGoogleSheets = async (data: any) => {
+    const sheetId = import.meta.env.VITE_GOOGLE_SHEET_ID;
+    const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+
+    if (!sheetId || !apiKey) {
+      throw new Error("Google Sheets configuration missing. Please check .env file.");
+    }
+
+    // Google Sheets API v4 endpoint
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS&key=${apiKey}`;
+
+    // Format data as row array
+    const rowData = [
+      data.timestamp,
+      data.registrationId,
+      data.fullName,
+      data.email,
+      data.phone,
+      data.college,
+      data.course,
+      data.yearOfStudy,
+      data.teamSize,
+      data.teamMembers || "N/A",
+      data.themePreference,
+      data.aiExperience,
+      data.howDidYouHear,
+      data.requirements || "N/A",
+      data.csrfToken || "N/A",
+      data.timeSpentOnForm || 0,
+    ];
+
+    const response = await axios.post(url, {
+      values: [rowData],
     });
 
     if (response.status !== 200) {
-      throw new Error("Failed to submit registration");
+      throw new Error("Failed to submit to Google Sheets");
     }
 
     return response.data;

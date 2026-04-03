@@ -74,7 +74,13 @@ export const storeCSRFToken = (): string => {
  * Get CSRF token from sessionStorage
  */
 export const getCSRFToken = (): string | null => {
-  return sessionStorage.getItem('csrf_token');
+  if (typeof window === 'undefined') return null;
+  try {
+    return window.sessionStorage.getItem('csrf_token');
+  } catch (error) {
+    console.error('Error getting CSRF token:', error);
+    return null;
+  }
 };
 
 /**
