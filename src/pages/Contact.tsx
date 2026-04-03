@@ -132,19 +132,19 @@ const Contact = () => {
                 <h2 className="font-display text-2xl font-bold mb-6">Contact Information</h2>
                 
                 <div className="space-y-4">
-                  <a href="mailto:aiideathon2026@gmail.com" className="flex items-start gap-4 p-4 rounded-lg hover:bg-primary/5 transition-colors">
+                  <a href="mailto:mukesh.mmp1234@gmail.com" className="flex items-start gap-4 p-4 rounded-lg hover:bg-primary/5 transition-colors">
                     <Mail className="text-primary shrink-0 mt-1" size={20} />
                     <div>
                       <p className="font-semibold text-foreground mb-1">Email Us</p>
-                      <p className="text-muted-foreground">aiideathon2026@gmail.com</p>
+                      <p className="text-muted-foreground">mukesh.mmp1234@gmail.com</p>
                     </div>
                   </a>
                   
-                  <a href="tel:+919876543210" className="flex items-start gap-4 p-4 rounded-lg hover:bg-primary/5 transition-colors">
+                  <a href="tel:+918416982676" className="flex items-start gap-4 p-4 rounded-lg hover:bg-primary/5 transition-colors">
                     <Phone className="text-primary shrink-0 mt-1" size={20} />
                     <div>
                       <p className="font-semibold text-foreground mb-1">Call Us</p>
-                      <p className="text-muted-foreground">+91 98765 43210</p>
+                      <p className="text-muted-foreground">+91 84169 82676</p>
                     </div>
                   </a>
                   
@@ -205,14 +205,19 @@ const Contact = () => {
       <section className="section-padding bg-muted/30">
         <div className="container mx-auto text-center">
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
-            Emergency <span className="gradient-text">Contact</span>
+            Emergency <span className="gradient-text">Support</span>
           </h2>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
             During the event days, our emergency support line will be available 24/7 for all participants
           </p>
-          <a href="tel:+919876543210" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity">
-            <Phone size={20} /> +91 98765 43210
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a href="tel:+918416982676" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity">
+              <Phone size={20} /> +91 84169 82676
+            </a>
+            <a href="mailto:mukesh.mmp1234@gmail.com" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl glass-card text-foreground font-semibold hover-glow">
+              <Mail size={20} /> mukesh.mmp1234@gmail.com
+            </a>
+          </div>
         </div>
       </section>
     </>

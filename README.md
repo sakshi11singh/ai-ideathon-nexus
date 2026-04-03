@@ -214,8 +214,8 @@ npm run lint
 **CodeByt** - Innovating Education Through Technology
 
 - Website: [codebyt.com](https://codebyt.com)
-- Email: aiideathon2026@gmail.com
-- Phone: +91 98765 43210
+- Email: mukesh.mmp1234@gmail.com
+- Phone: +91 84169 82676
 
 ## Registration
 

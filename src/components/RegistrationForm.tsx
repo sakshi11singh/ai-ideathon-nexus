@@ -260,7 +260,7 @@ const RegistrationForm = () => {
                 {...register("phone")}
                 type="tel"
                 className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                placeholder="+91 98765 43210"
+                placeholder="+91 84169 82676"
               />
               {errors.phone && (
                 <p className="text-error text-sm mt-1">{errors.phone.message}</p>

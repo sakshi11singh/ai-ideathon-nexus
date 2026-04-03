@@ -37,6 +37,8 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [eventDropdownOpen, setEventDropdownOpen] = useState(false);
   const [getInvolvedDropdownOpen, setGetInvolvedDropdownOpen] = useState(false);
+  const [mobileEventExpanded, setMobileEventExpanded] = useState(false);
+  const [mobileGetInvolvedExpanded, setMobileGetInvolvedExpanded] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -60,48 +62,56 @@ const Navbar = () => {
             </a>
           ))}
           
-          {/* Event Dropdown */}
+          {/* Event Dropdown - Desktop */}
           <div 
             className="relative"
             onMouseEnter={() => setEventDropdownOpen(true)}
             onMouseLeave={() => setEventDropdownOpen(false)}
           >
-            <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <button 
+              onClick={() => setEventDropdownOpen(!eventDropdownOpen)}
+              className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+            >
               Event <ChevronDown size={16} className={`transition-transform ${eventDropdownOpen ? "rotate-180" : ""}`} />
             </button>
             
             {eventDropdownOpen && (
-              <div className="absolute top-full left-0 mt-2 w-56 glass-card rounded-lg shadow-xl border border-border overflow-hidden animate-slide-up">
+              <div className="absolute top-full left-0 mt-2 w-56 glass-card rounded-lg shadow-xl border border-border overflow-hidden animate-slide-up z-50">
                 {eventDropdown.map((item) => (
-                  <a
+                  <Link
                     key={item.href}
-                    href={item.href}
+                    to={item.href}
+                    onClick={() => setEventDropdownOpen(false)}
                     className="flex items-center gap-3 px-4 py-3 hover:bg-primary/10 transition-colors"
                   >
                     <item.icon size={18} className="text-primary" />
                     <span className="text-sm text-foreground">{item.label}</span>
-                  </a>
+                  </Link>
                 ))}
               </div>
             )}
           </div>
 
-          {/* Get Involved Dropdown */}
+          {/* Get Involved Dropdown - Desktop */}
           <div 
             className="relative"
             onMouseEnter={() => setGetInvolvedDropdownOpen(true)}
             onMouseLeave={() => setGetInvolvedDropdownOpen(false)}
           >
-            <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <button 
+              onClick={() => setGetInvolvedDropdownOpen(!getInvolvedDropdownOpen)}
+              className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+            >
               Get Involved <ChevronDown size={16} className={`transition-transform ${getInvolvedDropdownOpen ? "rotate-180" : ""}`} />
             </button>
             
             {getInvolvedDropdownOpen && (
-              <div className="absolute top-full left-0 mt-2 w-64 glass-card rounded-lg shadow-xl border border-border overflow-hidden animate-slide-up">
+              <div className="absolute top-full left-0 mt-2 w-64 glass-card rounded-lg shadow-xl border border-border overflow-hidden animate-slide-up z-50">
                 {getInvolvedDropdown.map((item) => (
                   <Link
                     key={item.href}
                     to={item.href}
+                    onClick={() => setGetInvolvedDropdownOpen(false)}
                     className="flex items-center gap-3 px-4 py-3 hover:bg-primary/10 transition-colors"
                   >
                     <item.icon size={18} className="text-primary" />
@@ -137,7 +147,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="lg:hidden bg-background/95 backdrop-blur-xl border-t border-border animate-slide-up">
+        <div className="lg:hidden bg-background/95 backdrop-blur-xl border-t border-border animate-slide-up max-h-[80vh] overflow-y-auto">
           <div className="container mx-auto py-4 flex flex-col gap-3">
             {navLinks.map((l) => (
               <a key={l.href} href={l.href} onClick={() => setIsOpen(false)} className="py-2 text-muted-foreground hover:text-foreground transition-colors">
@@ -145,39 +155,75 @@ const Navbar = () => {
               </a>
             ))}
             
-            {/* Event Section Mobile */}
+            {/* Event Section Mobile - Expandable */}
             <div className="py-2">
-              <p className="text-xs text-muted-foreground mb-2">EVENT</p>
-              {eventDropdown.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 py-2 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  <item.icon size={16} className="text-primary" />
-                  <span className="text-sm">{item.label}</span>
-                </a>
-              ))}
+              <button 
+                onClick={() => setMobileEventExpanded(!mobileEventExpanded)}
+                className="flex items-center justify-between w-full py-2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <span className="text-xs font-semibold uppercase tracking-wider">Event</span>
+                <ChevronDown size={16} className={`transition-transform ${mobileEventExpanded ? "rotate-180" : ""}`} />
+              </button>
+              {mobileEventExpanded && (
+                <div className="ml-4 mt-2 space-y-1 animate-slide-up">
+                  {eventDropdown.map((item) => (
+                    <Link
+                      key={item.href}
+                      to={item.href}
+                      onClick={() => { setIsOpen(false); setMobileEventExpanded(false); }}
+                      className="flex items-center gap-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      <item.icon size={16} className="text-primary" />
+                      <span className="text-sm">{item.label}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Get Involved Section Mobile - Expandable */}
+            <div className="py-2">
+              <button 
+                onClick={() => setMobileGetInvolvedExpanded(!mobileGetInvolvedExpanded)}
+                className="flex items-center justify-between w-full py-2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <span className="text-xs font-semibold uppercase tracking-wider">Get Involved</span>
+                <ChevronDown size={16} className={`transition-transform ${mobileGetInvolvedExpanded ? "rotate-180" : ""}`} />
+              </button>
+              {mobileGetInvolvedExpanded && (
+                <div className="ml-4 mt-2 space-y-1 animate-slide-up">
+                  {getInvolvedDropdown.map((item) => (
+                    <Link
+                      key={item.href}
+                      to={item.href}
+                      onClick={() => { setIsOpen(false); setMobileGetInvolvedExpanded(false); }}
+                      className="flex items-center gap-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      <item.icon size={16} className="text-primary" />
+                      <span className="text-sm">{item.label}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* More Section Mobile */}
             <div className="py-2">
-              <p className="text-xs text-muted-foreground mb-2">MORE</p>
+              <p className="text-xs text-muted-foreground mb-2 font-semibold uppercase tracking-wider">MORE</p>
               {moreLinks.map((l) => (
-                <a
+                <Link
                   key={l.href}
-                  href={l.href}
+                  to={l.href}
                   onClick={() => setIsOpen(false)}
                   className="flex items-center gap-3 py-2 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {l.icon && <l.icon size={16} />}
                   <span className="text-sm">{l.label}</span>
-                </a>
+                </Link>
               ))}
             </div>
 
-            <Link to="/register" className="mt-2 px-5 py-3 rounded-lg bg-primary text-primary-foreground text-center font-semibold block">
+            <Link to="/register" onClick={() => setIsOpen(false)} className="mt-2 px-5 py-3 rounded-lg bg-primary text-primary-foreground text-center font-semibold block">
               Register Now
             </Link>
           </div>

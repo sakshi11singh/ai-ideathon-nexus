@@ -14,13 +14,13 @@ const ContactSection = () => {
       </p>
 
       <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
-        <a href="mailto:aiideathon2026@gmail.com" className="glass-card px-8 py-5 flex items-center gap-3 hover-glow">
+        <a href="mailto:mukesh.mmp1234@gmail.com" className="glass-card px-8 py-5 flex items-center gap-3 hover-glow">
           <Mail className="text-primary" size={22} />
-          <span className="text-foreground">aiideathon2026@gmail.com</span>
+          <span className="text-foreground">mukesh.mmp1234@gmail.com</span>
         </a>
-        <a href="tel:+919876543210" className="glass-card px-8 py-5 flex items-center gap-3 hover-glow">
+        <a href="tel:+918416982676" className="glass-card px-8 py-5 flex items-center gap-3 hover-glow">
           <Phone className="text-primary" size={22} />
-          <span className="text-foreground">+91 98765 43210</span>
+          <span className="text-foreground">+91 84169 82676</span>
         </a>
       </div>
 

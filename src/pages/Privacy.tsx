@@ -105,8 +105,8 @@ const Privacy = () => {
             <h2 className="font-display text-2xl font-bold mb-4">8. Contact Us</h2>
             <p className="text-muted-foreground">
               If you have questions about this Privacy Policy, please contact us at:{' '}
-              <a href="mailto:aiideathon2026@gmail.com" className="text-primary hover:underline">
-                aiideathon2026@gmail.com
+              <a href="mailto:mukesh.mmp1234@gmail.com" className="text-primary hover:underline">
+                mukesh.mmp1234@gmail.com
               </a>
             </p>
           </div>

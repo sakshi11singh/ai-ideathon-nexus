@@ -205,4 +205,4 @@ After setup:
 
 ## Support
 
-Issues? Contact: aiideathon2026@gmail.com
+Issues? Contact: mukesh.mmp1234@gmail.com
