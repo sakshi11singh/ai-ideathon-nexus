@@ -1,4 +1,5 @@
 import { Trophy, Medal, Award, Gift, IndianRupee } from "lucide-react";
+import { Link } from "react-router-dom";
 import { SEOMeta } from "@/components/SEO/SEOMeta";
 import StatsCard from "@/components/ui/stats-card";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -96,14 +97,12 @@ const Prizes = () => {
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
               Register now and take your first step towards winning exciting prizes and opportunities
             </p>
-            <a
-              href="https://unstop.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/register"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-primary to-accent text-primary-foreground font-semibold text-lg hover:opacity-90 transition-opacity"
             >
               Register Now
-            </a>
+            </Link>
           </div>
         </div>
       </section>

@@ -26,6 +26,14 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 
+// Role Registration Pages
+import Mentor from "./pages/Mentor";
+import Speaker from "./pages/Speaker";
+import Judge from "./pages/Judge";
+import Sponsor from "./pages/Sponsor";
+import MediaPartner from "./pages/MediaPartner";
+import CampusAmbassador from "./pages/CampusAmbassador";
+
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -58,6 +66,14 @@ const App = () => {
               <Route path="/resources" element={<PageLayout><Resources /></PageLayout>} />
               <Route path="/judges" element={<PageLayout><Judges /></PageLayout>} />
               <Route path="/contact" element={<PageLayout><Contact /></PageLayout>} />
+              
+              {/* Role Registration Pages */}
+              <Route path="/mentor" element={<PageLayout><Mentor /></PageLayout>} />
+              <Route path="/speaker" element={<PageLayout><Speaker /></PageLayout>} />
+              <Route path="/judge" element={<PageLayout><Judge /></PageLayout>} />
+              <Route path="/sponsor" element={<PageLayout><Sponsor /></PageLayout>} />
+              <Route path="/media-partner" element={<PageLayout><MediaPartner /></PageLayout>} />
+              <Route path="/campus-ambassador" element={<PageLayout><CampusAmbassador /></PageLayout>} />
               
               {/* Legal Pages */}
               <Route path="/privacy" element={<PageLayout><Privacy /></PageLayout>} />

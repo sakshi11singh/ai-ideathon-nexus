@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Download } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const DEADLINE = new Date("2026-04-30T23:59:59").getTime();
@@ -50,14 +51,12 @@ const HeroSection = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-slide-up-delay-3">
-          <a
-            href="https://unstop.com"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/register"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-primary to-accent text-primary-foreground font-semibold text-lg hover:opacity-90 transition-opacity glow-blue"
           >
             Register Now <ArrowRight size={20} />
-          </a>
+          </Link>
           <a
             href="#"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl glass-card text-foreground font-semibold text-lg hover-glow"

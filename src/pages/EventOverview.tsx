@@ -1,4 +1,4 @@
-import { BookOpen, Calendar, FileText, ShieldCheck, ArrowRight, CheckCircle2 } from "lucide-react";
+import { BookOpen, Calendar, FileText, ShieldCheck, ArrowRight, CheckCircle2, Users } from "lucide-react";
 import { SEOMeta } from "@/components/SEO/SEOMeta";
 import Breadcrumb from "@/components/Navigation/Breadcrumb";
 import { useScrollReveal } from "@/hooks/useScrollReveal";

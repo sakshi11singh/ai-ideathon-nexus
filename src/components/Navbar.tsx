@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Brain, ChevronDown, Trophy, BookOpen, Calendar, FileText, ShieldCheck, Users, Mail } from "lucide-react";
+import { Menu, X, Brain, ChevronDown, Trophy, BookOpen, Calendar, FileText, ShieldCheck, Users, Mail, Mic, Gavel, Building2, Newspaper, Rocket } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -17,14 +18,25 @@ const eventDropdown = [
 const moreLinks = [
   { label: "Prizes", href: "/prizes", icon: Trophy },
   { label: "Resources", href: "/resources" },
-  { label: "Judges", href: "/judges" },
+  { label: "Judges & Mentors", href: "/judges" },
   { label: "Contact", href: "/contact", icon: Mail },
+];
+
+const getInvolvedDropdown = [
+  { label: "Participant", href: "/register", icon: Users },
+  { label: "Mentor", href: "/mentor", icon: Brain },
+  { label: "Speaker", href: "/speaker", icon: Mic },
+  { label: "Judge", href: "/judge", icon: Gavel },
+  { label: "Sponsor", href: "/sponsor", icon: Building2 },
+  { label: "Media Partner", href: "/media-partner", icon: Newspaper },
+  { label: "Campus Ambassador", href: "/campus-ambassador", icon: Rocket },
 ];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [eventDropdownOpen, setEventDropdownOpen] = useState(false);
+  const [getInvolvedDropdownOpen, setGetInvolvedDropdownOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -36,7 +48,7 @@ const Navbar = () => {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/80 backdrop-blur-xl border-b border-border" : ""}`}>
       <div className="container mx-auto flex items-center justify-between py-4">
         <a href="/" className="flex items-center gap-2">
-          <Brain className="h-8 w-8 text-primary" />
+          <img src="/logo.png" alt="AI Ideathon Logo" className="h-10 w-10 object-contain rounded-lg" />
           <span className="font-display text-xl font-bold gradient-text">AI Ideathon</span>
         </a>
 
@@ -74,6 +86,32 @@ const Navbar = () => {
             )}
           </div>
 
+          {/* Get Involved Dropdown */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setGetInvolvedDropdownOpen(true)}
+            onMouseLeave={() => setGetInvolvedDropdownOpen(false)}
+          >
+            <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Get Involved <ChevronDown size={16} className={`transition-transform ${getInvolvedDropdownOpen ? "rotate-180" : ""}`} />
+            </button>
+            
+            {getInvolvedDropdownOpen && (
+              <div className="absolute top-full left-0 mt-2 w-64 glass-card rounded-lg shadow-xl border border-border overflow-hidden animate-slide-up">
+                {getInvolvedDropdown.map((item) => (
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-primary/10 transition-colors"
+                  >
+                    <item.icon size={18} className="text-primary" />
+                    <span className="text-sm text-foreground">{item.label}</span>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
           {/* More Dropdown */}
           <div className="flex items-center gap-4">
             {moreLinks.map((l) => (
@@ -83,14 +121,12 @@ const Navbar = () => {
             ))}
           </div>
 
-          <a
-            href="https://unstop.com"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/register"
             className="px-5 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
           >
             Register Now
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -141,9 +177,9 @@ const Navbar = () => {
               ))}
             </div>
 
-            <a href="https://unstop.com" target="_blank" rel="noopener noreferrer" className="mt-2 px-5 py-3 rounded-lg bg-primary text-primary-foreground text-center font-semibold">
+            <Link to="/register" className="mt-2 px-5 py-3 rounded-lg bg-primary text-primary-foreground text-center font-semibold block">
               Register Now
-            </a>
+            </Link>
           </div>
         </div>
       )}

@@ -10,7 +10,7 @@ const Footer = () => (
         {/* Brand Section */}
         <div className="col-span-1">
           <div className="flex items-center gap-2 mb-4">
-            <Brain className="h-6 w-6 text-primary" />
+            <img src="/logo.png" alt="AI Ideathon Logo" className="h-8 w-8 object-contain rounded-md" />
             <span className="font-display font-bold gradient-text text-lg">AI Ideathon 2026</span>
           </div>
           <p className="text-muted-foreground text-sm mb-4">

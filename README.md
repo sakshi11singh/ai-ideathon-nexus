@@ -16,7 +16,7 @@ AI Ideathon 2026 is a premier national-level hackathon focused on artificial int
 - **Format:** Hybrid (Online + Offline Finals)
 - **Team Size:** 1-3 members
 - **Eligibility:** Students aged 15-24 years
-- **Registration:** Via Unstop platform
+- **Registration:** Direct on website with Google Sheets integration
 
 ## Competition Tracks
 
@@ -52,6 +52,11 @@ AI Ideathon 2026 is a premier national-level hackathon focused on artificial int
 - **Forms:** React Hook Form 7.61 + Zod validation
 - **Icons:** Lucide React
 
+### Backend Integration
+- **Data Storage:** Google Sheets API
+- **Email Service:** EmailJS (optional)
+- **Deployment:** Vercel / Netlify
+
 ### Development
 - **Package Manager:** npm/Bun
 - **Testing:** Vitest + Playwright
@@ -67,14 +72,20 @@ ai-ideathon-nexus/
 │   │   ├── ui/             # Base UI components (shadcn/ui)
 │   │   ├── Layout/         # Layout components
 │   │   ├── Navigation/     # Navigation components
-│   │   └── SEO/            # SEO meta components
+│   │   ├── SEO/            # SEO meta components
+│   │   └── RegistrationForm.tsx  # Custom registration form
 │   ├── pages/              # Page components
+│   │   ├── Home.tsx
+│   │   ├── About.tsx
+│   │   ├── Register.tsx    # Registration page
 │   │   └── event/          # Event-specific pages
 │   ├── hooks/              # Custom React hooks
 │   ├── lib/                # Utility libraries
 │   ├── assets/             # Static assets
 │   └── test/               # Test files
 ├── public/                 # Public static files
+├── .env                    # Environment variables (not in git)
+├── .env.example            # Environment template
 └── package.json
 ```
 
@@ -84,6 +95,7 @@ ai-ideathon-nexus/
 
 - Node.js 20+ or Bun 1.0+
 - npm or Bun package manager
+- Google Cloud account (for Sheets API)
 
 ### Installation
 
@@ -96,6 +108,17 @@ cd ai-ideathon-nexus
 npm install
 # or
 bun install
+```
+
+### Environment Setup
+
+```bash
+# Copy environment template
+cp .env.example .env
+
+# Edit .env and add your credentials:
+# VITE_GOOGLE_SHEET_ID=your_sheet_id
+# VITE_GOOGLE_API_KEY=your_api_key
 ```
 
 ### Development
@@ -144,6 +167,9 @@ npm run lint
 - ✅ Modern glass-morphism UI design
 - ✅ Dark mode support
 - ✅ Smooth animations and transitions
+- ✅ Custom registration form with Google Sheets integration
+- ✅ Real-time form validation
+- ✅ Email confirmations (optional)
 
 ## Pages
 
@@ -155,12 +181,33 @@ npm run lint
 - **Rounds** - Competition structure breakdown
 - **Rules** - Guidelines and code of conduct
 - **Prizes** - Prize pool and rewards
-- **Registration** - Step-by-step registration guide
+- **Registration** - Custom form with Google Sheets integration ⭐ NEW!
 - **Resources** - Learning materials and tools
 - **Judges & Mentors** - Expert profiles
 - **Contact** - Contact form and information
 - **Privacy Policy** - Data protection guidelines
 - **Terms & Conditions** - Participation terms
+
+## Registration System
+
+### Features:
+- ✨ Beautiful custom form matching website design
+- 🔒 Direct Google Sheets API integration
+- ✅ Real-time validation with Zod
+- 📧 Optional email confirmations via EmailJS
+- 🎯 Unique registration ID generation
+- 📊 All data stored in your Google Sheet
+- 🚀 No backend required!
+
+### Setup Time: ~15 minutes
+
+1. Create Google Sheet with column headers
+2. Get Google Cloud API credentials
+3. Add credentials to `.env` file
+4. Share Google Sheet publicly
+5. Test and deploy!
+
+📖 **Full documentation:** See `REGISTRATION_FORM_IMPLEMENTATION.md`
 
 ## Organized By
 
@@ -172,13 +219,30 @@ npm run lint
 
 ## Registration
 
-Register now on [Unstop](https://unstop.com) - Search for "AI Ideathon 2026"
+**Direct on Website** - Custom registration form with Google Sheets integration
+
+Register now at `/register` or visit [your-domain.com/register](#)
+
+### Features:
+- ✅ Instant registration confirmation
+- ✅ Data stored directly in Google Sheets
+- ✅ Email confirmations (optional)
+- ✅ No external platform redirects
+- ✅ Secure and validated submissions
+
+---
 
 ## Connect With Us
 
 - [Instagram](#)
 - [LinkedIn](#)
 - [Twitter](#)
+
+## Documentation
+
+- `GOOGLE_SHEET_API_SETUP.md` - Step-by-step Google Sheets setup guide
+- `REGISTRATION_FORM_IMPLEMENTATION.md` - Complete registration implementation guide
+- `IMPLEMENTATION_SUMMARY.md` - Summary of all features and deployment instructions
 
 ## License
 
