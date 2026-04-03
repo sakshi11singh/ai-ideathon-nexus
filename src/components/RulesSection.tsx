@@ -36,3 +36,5 @@ const RulesSection = () => {
 };
 
 export default RulesSection;
+
+
